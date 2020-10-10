@@ -1,0 +1,26 @@
+{
+  "name": "Projeto_Pratico_Livraria",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aline160/Projeto_Pratico_Livraria.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Aline160/Projeto_Pratico_Livraria/issues"
+  },
+  "homepage": "https://github.com/Aline160/Projeto_Pratico_Livraria#readme",
+  "devDependencies": {
+    "express": "^4.17.1"
+  },
+  "dependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
