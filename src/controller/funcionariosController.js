@@ -32,26 +32,47 @@ const postFuncionarios = (req,res)=>{
 
   const deleteFuncionario = (req,res)=>{
     const id = req.params.id;
-    const funcionariosFiltrado = funcionarios.find((funcionarios) => funcionarios.id ==id);
+    try {
+      const funcionariosFiltrado = funcionarios.find((funcionarios) => funcionarios.id ==id);
     const index = funcionarios.indexOf(funcionariosFiltrado);
   
     funcionarios.splice(index,11);
   
     fs.writeFile("./src/model/funcionarios.json", JSON.stringify(funcionarios),'utf8',function(err){
       if (err){
-        return res.status(424).send ({message: err});
+        return res.status(424).send ({message: 'Registro não encontrado'});
       }
       console.log ("Arquivo atualizado com Sucesso!");
     });
   
     res.status(200).send(funcionarios);
+    } catch(err) {
+      return res.status(500).send({message: err})
+    }
   };
 
-  
+  const putFuncionarios = (req,res) => {
+    const id = req.params.id;
+    const funcionariosASerModificado = funcionarios.find((funcionarios) => funcionarios.id == id);
+
+    const funcionariosAtualizado = req.body;
+
+    const index = funcionarios.indexOf(funcionariosASerModificado);
+
+    funcionarios.splice(index,1,funcionariosAtualizado);
+
+    res.status(200).send(funcionarios);
+  }
+
+  const patchFuncionarios = (req,res) => {
+
+  }
 
 module.exports = {
     getAll,
     getByID,
     postFuncionarios,
     deleteFuncionario,
+    putFuncionarios,
+    patchFuncionarios
 };
