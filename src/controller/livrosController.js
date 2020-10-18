@@ -55,11 +55,55 @@ const postLivros = (req,res)=>{
 
     };
 
-    const getby = (req,res) => {
-        const artista = req.params.artista
-        const artistaFiltrado= nossas_musicas.filter ((nossas_musicas) => nossas_musicas.artista == artista)
+    const putLivros = (req,res) => {
+      try{
+        const id = req.params.id;
+        const livrosASerModificado = livros.find((livros) => livros.id == id);
     
-        res.status(200).send(artistaFiltrado);
+        const livrosAtualizado = req.body;
+    
+        const index = livros.indexOf(livrosASerModificado);
+    
+        livros.splice(index,1,livrosAtualizado);
+    
+        fs.writeFile("./src/model/livros.json", JSON.stringify(livros),'utf8',function(err){
+          if (err){
+            return res.status(424).send ({message: err});
+          }
+          console.log ("Arquivo atualizado com Sucesso!");
+        });
+    
+        res.status(200).send(livros);
+      }catch(err){
+      return res.status(424).send({message:err});
+    }
+  }
+  
+  
+    const patchLivros = (req,res) => {
+      const id = req.params.id;
+      const atualizacao = req.body;
+  
+      try {
+        const livrosASerModificado= livros.find((livros)=> livros.id == id);
+  
+        Object.keys(atualizacao).forEach((chave)=> {
+          livrosASerModificado[chave] = atualizacao[chave]
+        })
+        console.log(livrosASerModificado)
+  
+        fs.writeFile("./src/model/livros.json", JSON.stringify(livros),'utf8',function(err){
+          if (err){
+            return res.status(424).send ({message: err});
+          }
+          console.log ("Arquivo atualizado com Sucesso!");
+        });
+  
+       return res.status(200).send(livros);
+  
+      } catch(err){
+        return res.status(424).send({message: err});
+      }
     }
 
 
@@ -69,4 +113,6 @@ module.exports = {
     postLivros,
     deleteLivros,
     getAllTituloLivro,
+    putLivros,
+    patchLivros
 };

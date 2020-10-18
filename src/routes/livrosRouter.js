@@ -8,7 +8,8 @@ router.get ("/:id",controller.getByID);
 router.get('/titulo', controller.getAllTituloLivro)
 router.post ("/",controller.postLivros);
 router.delete ("/",controller.deleteLivros);
-
+router.put("/:id",controller.putLivros);
+router.patch("/:id",controller.patchLivros);
 
 
 module.exports = router;
