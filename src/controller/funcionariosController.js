@@ -52,20 +52,54 @@ const postFuncionarios = (req,res)=>{
   };
 
   const putFuncionarios = (req,res) => {
-    const id = req.params.id;
-    const funcionariosASerModificado = funcionarios.find((funcionarios) => funcionarios.id == id);
-
-    const funcionariosAtualizado = req.body;
-
-    const index = funcionarios.indexOf(funcionariosASerModificado);
-
-    funcionarios.splice(index,1,funcionariosAtualizado);
-
-    res.status(200).send(funcionarios);
+    try{
+      const id = req.params.id;
+      const funcionariosASerModificado = funcionarios.find((funcionarios) => funcionarios.id == id);
+  
+      const funcionariosAtualizado = req.body;
+  
+      const index = funcionarios.indexOf(funcionariosASerModificado);
+  
+      funcionarios.splice(index,1,funcionariosAtualizado);
+  
+      fs.writeFile("./src/model/funcionarios.json", JSON.stringify(funcionarios),'utf8',function(err){
+        if (err){
+          return res.status(424).send ({message: err});
+        }
+        console.log ("Arquivo atualizado com Sucesso!");
+      });
+  
+      res.status(200).send(funcionarios);
+    }catch(err){
+    return res.status(424).send({message:err});
   }
+}
+
 
   const patchFuncionarios = (req,res) => {
+    const id = req.params.id;
+    const atualizacao = req.body;
 
+    try {
+      const funcionariosASerModificado= funcionarios.find((funcionarios)=> funcionarios.id == id);
+
+      Object.keys(atualizacao).forEach((chave)=> {
+        funcionariosASerModificado[chave] = atualizacao[chave]
+      })
+      console.log(funcionariosASerModificado)
+
+      fs.writeFile("./src/model/funcionarios.json", JSON.stringify(funcionarios),'utf8',function(err){
+        if (err){
+          return res.status(424).send ({message: err});
+        }
+        console.log ("Arquivo atualizado com Sucesso!");
+      });
+
+     return res.status(200).send(funcionarios);
+
+    } catch(err){
+      return res.status(424).send({message: err});
+    }
   }
 
 module.exports = {
